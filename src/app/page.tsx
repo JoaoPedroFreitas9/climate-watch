@@ -1,4 +1,3 @@
-
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -36,8 +35,7 @@ async function NasaAlerts() {
         let Icone = AlertTriangle; 
         let corIcone = "text-yellow-500";
         let bgIcone = "bg-yellow-50";
-        let tituloTraduzido = tituloCategoria;
-        
+        let tituloTraduzido = tituloCategoria; 
         
         if (tituloCategoria === "Wildfires") { 
           Icone = Flame; corIcone = "text-orange-500"; bgIcone = "bg-orange-50"; tituloTraduzido = "Incêndio Florestal"; 
@@ -60,14 +58,16 @@ async function NasaAlerts() {
         const fonteId = evento.sources?.[0]?.id || "NASA";
 
         return (
-          <li key={evento.id} className="flex gap-4 items-start py-3 border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors px-2 rounded-lg -mx-2">            
+          <li key={evento.id} className="flex gap-4 items-start py-3 border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors px-2 rounded-lg -mx-2">
             <div className={`p-2.5 rounded-full ${bgIcone} ${corIcone} mt-1 cursor-help`} title={`Tipo de desastre: ${tituloTraduzido}`}>
               <Icone className="w-5 h-5" />
             </div>
+            
             <div className="flex flex-col w-full">
               <span className="font-semibold text-slate-800 text-sm leading-tight line-clamp-2" title={evento.title}>
                 {evento.title}
               </span>
+              
               <div className="flex flex-wrap gap-x-3 gap-y-1.5 text-[11px] text-slate-500 font-medium mt-1.5">
                 <span className="bg-slate-100 px-2 py-0.5 rounded-md text-slate-600 cursor-help" title="Categoria Oficial do Evento">
                   {tituloTraduzido}
@@ -102,7 +102,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ c
     try {
       dadosClima = await getWeather(cidadeBuscada);
       dadosPrevisao = await getForecast(cidadeBuscada);
-    } catch (_e) {
+    } catch {
       erro = "Cidade não encontrada. Verifique o nome digitado.";
     }
   }
@@ -110,15 +110,13 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ c
   return (
     <main className="min-h-screen lg:h-screen lg:overflow-hidden flex flex-col justify-center bg-slate-50 p-4 md:p-8">
       <div className="max-w-5xl mx-auto w-full space-y-6">
-        
         <div className="flex flex-col items-center text-center gap-2">
           <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 flex items-center gap-2">
-            <MapPin className="w-8 h-8 text-blue-600" /> Observador do Clima
+            <MapPin className="w-8 h-8 text-blue-600" /> Vigilância Climática
           </h1>
           <p className="text-sm md:text-base text-slate-500">
             Acompanhe as condições climáticas e alertas de desastres naturais em tempo real.
           </p>
-          
           <form className="flex w-full max-w-md gap-2 mt-4" action="/">
             <Input 
               name="cidade" 
@@ -132,7 +130,6 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ c
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-4 items-stretch">
-          
           <Card className="bg-white border-slate-100 shadow-lg rounded-3xl flex flex-col h-full">
             <CardHeader className="border-b border-slate-50 pb-4 pt-5">
               <CardTitle className="flex items-center gap-2 text-slate-800 text-base">
@@ -193,7 +190,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ c
                         {dadosPrevisao.map((dia: { dt: number; dt_txt: string; main: { temp: number }; weather: { icon: string; description: string }[] }) => {
                           const dataFormatada = new Date(dia.dt_txt).toLocaleDateString('pt-BR', { weekday: 'short' });
                           return (
-                            <div key={dia.dt} className="flex flex-col items-center min-w-[60px] cursor-help" title={`Previsão para ${dataFormatada}`}>
+                            <div key={dia.dt} className="flex flex-col items-center min-w-15 cursor-help" title={`Previsão para ${dataFormatada}`}>
                               <p className="text-xs font-semibold text-slate-500 capitalize">{dataFormatada}</p>
                               <Image src={`https://openweathermap.org/img/wn/${dia.weather[0].icon}.png`} alt="icon" width={36} height={36} />
                               <p className="text-base font-bold text-slate-800">{Math.round(dia.main.temp)}°</p>
@@ -228,7 +225,6 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ c
               </Suspense>
             </CardContent>
           </Card>
-
         </div>
       </div>
     </main>
