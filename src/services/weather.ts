@@ -1,4 +1,3 @@
-// src/services/weather.ts
 
 export async function getWeather(city: string) {
   const apiKey = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
@@ -24,7 +23,7 @@ export async function getForecast(city: string) {
     
     const data = await response.json();
 
-    // Filtra a lista para pegar apenas a previsão do meio-dia (12:00:00)
+  
     const dailyForecast = data.list.filter((item: { dt_txt: string }) => 
       item.dt_txt.includes("12:00:00")
     );

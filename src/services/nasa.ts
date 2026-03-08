@@ -1,11 +1,10 @@
-// src/services/nasa.ts
 
 export async function getEvents() {
   const url = 'https://eonet.gsfc.nasa.gov/api/v2.1/events?limit=4&days=30&status=open';
 
   try {
     const response = await fetch(url, {
-      cache: 'no-store' // Sempre busca os dados mais frescos
+      cache: 'no-store' 
     });
 
     if (!response.ok) {
@@ -17,7 +16,7 @@ export async function getEvents() {
     
   } catch (error) {
     console.error("Erro na API da NASA:", error);
-    // Removemos os dados falsos. Se a NASA cair, a tela simplesmente mostra a mensagem de "Nenhum alerta"
+    
     return []; 
   }
 }
