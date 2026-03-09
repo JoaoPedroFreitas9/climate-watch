@@ -5,7 +5,7 @@ import { getWeather, getForecast } from "@/services/weather";
 import { getEvents } from "@/services/nasa";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Thermometer, Wind, Droplets, Flame, Mountain, Tornado, MapPin, CloudRain, AlertTriangle, Map, Rss, Snowflake, Clock } from "lucide-react";
+import { Thermometer, Wind, Droplets, Flame, Mountain, Tornado, MapPin, CloudRain, AlertTriangle, Map, Rss, Snowflake, Clock, Search } from "lucide-react";
 import { SubmitButton } from "@/components/ui/SubmitButton"; 
 
 interface NasaEvent {
@@ -33,7 +33,6 @@ async function NasaAlerts() {
       {alertas.slice(0, 4).map((evento) => { 
         const tituloCategoria = evento.categories[0]?.title;
         
-       
         let Icone = AlertTriangle; 
         let corIcone = "text-emerald-500";
         let bgIcone = "bg-emerald-50";
@@ -41,23 +40,16 @@ async function NasaAlerts() {
         let corBadge = "bg-emerald-100 text-emerald-700";
         let corBolinha = "bg-emerald-500";
         
-        
         if (tituloCategoria === "Severe Storms") { 
           Icone = Tornado; corIcone = "text-red-500"; bgIcone = "bg-red-50"; tituloTraduzido = "Tempestade Severa"; 
           corBadge = "bg-red-100 text-red-700"; corBolinha = "bg-red-500";
-        } 
-        
-        else if (tituloCategoria === "Wildfires") { 
+        } else if (tituloCategoria === "Wildfires") { 
           Icone = Flame; corIcone = "text-orange-500"; bgIcone = "bg-orange-50"; tituloTraduzido = "Incêndio"; 
           corBadge = "bg-orange-100 text-orange-700"; corBolinha = "bg-orange-500";
-        } 
-        
-        else if (tituloCategoria === "Volcanoes") { 
+        } else if (tituloCategoria === "Volcanoes") { 
           Icone = Mountain; corIcone = "text-red-600"; bgIcone = "bg-red-50"; tituloTraduzido = "Vulcão"; 
           corBadge = "bg-red-100 text-red-700"; corBolinha = "bg-red-600";
-        } 
-        
-        else if (tituloCategoria === "Sea and Lake Ice") {
+        } else if (tituloCategoria === "Sea and Lake Ice") {
           Icone = Snowflake; corIcone = "text-blue-500"; bgIcone = "bg-blue-50"; tituloTraduzido = "Gelo / Iceberg";
           corBadge = "bg-blue-100 text-blue-700"; corBolinha = "bg-blue-500";
         }
@@ -74,14 +66,11 @@ async function NasaAlerts() {
 
         return (
           <li key={evento.id} className="flex gap-4 items-start py-3.5 border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors px-2 rounded-lg -mx-2">
-            
-            
             <div className={`p-2.5 rounded-full ${bgIcone} ${corIcone} mt-1 cursor-help`} title={`Classificação: ${tituloTraduzido}`}>
               <Icone className="w-5 h-5" />
             </div>
             
             <div className="flex flex-col w-full gap-1">
-              
               <div className="flex items-center">
                 <span className={`flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] uppercase tracking-wider font-extrabold ${corBadge} cursor-help`} title="Nível de Severidade">
                   <span className={`w-1.5 h-1.5 rounded-full ${corBolinha} animate-pulse`}></span>
@@ -89,11 +78,9 @@ async function NasaAlerts() {
                 </span>
               </div>
               
-              
               <span className="font-bold text-slate-800 text-sm leading-tight line-clamp-2 mt-0.5" title={evento.title}>
                 {evento.title}
               </span>
-              
               
               <div className="flex flex-wrap gap-x-3 gap-y-1.5 text-[11px] text-slate-500 font-medium mt-1">
                 <span title="Data da última atualização" className="cursor-help">• {dataEvento}</span>
@@ -139,9 +126,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ c
 
   return (
     <main className="min-h-screen lg:h-screen lg:overflow-hidden flex flex-col justify-center bg-slate-50 p-4 md:p-8">
-      
       <div className="max-w-5xl mx-auto w-full flex flex-col h-full max-h-212.5 gap-6">
-        
         <div className="flex flex-col items-start text-left gap-1.5 shrink-0">
           <div className="flex flex-wrap items-center justify-between w-full gap-4">
             <div>
@@ -162,19 +147,21 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ c
           </div>
 
           <form className="flex w-full max-w-md gap-2 mt-3" action="/">
-            <Input 
-              name="cidade" 
-              defaultValue={cidadeBuscada}
-              placeholder="Digite sua cidade..." 
-              className="bg-white shadow-sm h-12 text-base rounded-xl border-slate-200" 
-              required
-            />
+            <div className="relative w-full">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <Input 
+                name="cidade" 
+                defaultValue={dadosClima?.name || cidadeBuscada}
+                placeholder="Buscar cidade..." 
+                className="bg-white shadow-sm h-12 text-base rounded-xl border-slate-200 pl-11 capitalize" 
+                required
+              />
+            </div>
             <SubmitButton />
           </form>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch flex-1 min-h-0">
-          
           <Card className="bg-white border-slate-100 shadow-lg rounded-3xl flex flex-col h-full overflow-hidden">
             <CardHeader className="border-b border-slate-50 pb-4 pt-5 shrink-0">
               <CardTitle className="flex items-center gap-2 text-slate-800 text-base">
