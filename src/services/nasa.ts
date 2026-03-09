@@ -1,6 +1,5 @@
-
 export async function getEvents() {
-  const url = 'https://eonet.gsfc.nasa.gov/api/v2.1/events?limit=4&days=30&status=open';
+  const url = 'https://eonet.gsfc.nasa.gov/api/v2.1/events?days=30&status=open';
 
   try {
     const response = await fetch(url, {
