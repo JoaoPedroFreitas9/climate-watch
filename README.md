@@ -1,170 +1,235 @@
 
-# 🌍 Vigilância Climática
+# Vigilância Climática
 
-### Dashboard Meteorológico & Monitoramento de Desastres Naturais
-
-
-![Next.js](https://img.shields.io/badge/Next.js-14+-black?style=for-the-badge\&logo=next.js)
-![React](https://img.shields.io/badge/React-18-blue?style=for-the-badge\&logo=react)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge\&logo=tailwind-css)
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge\&logo=typescript)
+Dashboard Meteorológico e Sistema de Monitoramento de Desastres Naturais.
 
 ---
 
-## 📌 Sobre o Projeto
+# Visão Geral
 
-O **Vigilância Climática** é uma aplicação web focada no **monitoramento meteorológico em tempo real** e no **rastreamento global de desastres naturais**.
+O **Vigilância Climática** é uma aplicação web focada no monitoramento meteorológico em tempo real e no rastreamento global de eventos naturais extremos.
 
-A plataforma integra dados provenientes de **APIs oficiais**, oferecendo uma interface moderna, rápida e responsiva para visualização de informações climáticas e eventos naturais relevantes ao redor do mundo.
+A solução realiza a integração de dados provenientes de APIs governamentais e de pesquisa, consolidando-os em uma interface responsiva e de alta performance. O projeto foi arquitetado com ênfase em **Server-Side Rendering (SSR)**, resiliência de rede, manutenibilidade de código e qualidade de experiência do usuário.
 
-O projeto foi desenvolvido com foco em:
-
-* **Performance**
-* **Experiência do usuário (UX)**
-* **Arquitetura escalável**
-* **Boas práticas do ecossistema React/Next.js**
+A aplicação foi desenvolvida utilizando **Next.js** com arquitetura moderna baseada no **App Router**.
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+# Stack Tecnológico
 
-**Frontend**
+## Frontend e Arquitetura
 
-* Next.js 14 (App Router)
-* React 18
-* TypeScript
+* Framework: Next.js (App Router)
+* Biblioteca: React
+* Linguagem: TypeScript (tipagem estrita)
 
-**UI & Estilização**
+## Interface e Estilização
 
 * Tailwind CSS
-* Shadcn UI
-* Lucide React (ícones)
+* next-themes (gerenciamento de tema)
+* Shadcn UI (componentes base)
+* Lucide React (biblioteca de ícones)
 
-**APIs Utilizadas**
+## Integração de Dados
 
-* [OpenWeather API](https://openweathermap.org/api)
-  Dados climáticos atuais e previsão de 5 dias
-
-* [NASA EONET v2.1](https://eonet.gsfc.nasa.gov/)
-  Monitoramento global de eventos naturais extremos
+* **OpenWeather API** — dados climáticos atuais e previsão de 5 dias
+* **NASA EONET API** — monitoramento global de eventos naturais
 
 ---
 
-# 🧠 Arquitetura e Decisões Técnicas
+# Arquitetura de Software e Decisões Técnicas
 
-O projeto foi estruturado com foco em **performance, resiliência e experiência do usuário**, utilizando recursos modernos do **Next.js App Router**.
+A estrutura do projeto foi projetada utilizando os paradigmas modernos do **Next.js App Router**, com foco em modularidade, escalabilidade e organização da lógica de dados.
 
 ---
 
-## 1️⃣ Estratégias de Cache (Next.js)
+## Padrões de Projeto e Qualidade de Código
 
-Para reduzir o número de requisições externas e melhorar a performance da aplicação, foram aplicadas diferentes estratégias de cache.
+**Design modular**
 
-**Previsão do tempo**
+A interface foi dividida em componentes com responsabilidade única, incluindo:
 
-Utiliza **revalidação baseada em tempo**:
+* `WeatherDisplay` — exibição das informações meteorológicas
+* `NasaAlertItem` — exibição de eventos naturais
+* `ThemeToggle` — controle de tema da aplicação
 
-```ts
+Essa abordagem mantém o roteamento principal responsável apenas pela orquestração dos dados.
+
+---
+
+**Dictionary Pattern**
+
+Estruturas condicionais extensas foram substituídas por um objeto de mapeamento (`CATEGORY_CONFIG`) responsável pela configuração visual e semântica das categorias de eventos.
+
+Essa abordagem:
+
+* reduz complexidade de código
+* facilita manutenção
+* permite expansão com custo constante O(1)
+
+---
+
+**Imutabilidade de dados**
+
+A ordenação cronológica dos eventos é realizada sem mutação do array original.
+
+Exemplo:
+
+```
+[...events].sort()
+```
+
+Isso evita efeitos colaterais durante o ciclo de renderização do React.
+
+---
+
+**Tipagem estática rigorosa**
+
+Foram definidas interfaces específicas para representar as respostas das APIs externas, evitando o uso de tipagens genéricas como `any` e garantindo maior segurança no consumo de dados.
+
+---
+
+# Estratégias de Cache e Consumo de Dados
+
+## Dados Meteorológicos
+
+As requisições meteorológicas utilizam **revalidação estática incremental**:
+
+```
 revalidate: 3600
 ```
 
-Isso permite que os dados sejam atualizados automaticamente a cada **1 hora**, evitando chamadas desnecessárias à API da OpenWeather.
+Isso permite que o servidor atualize os dados automaticamente a cada hora, reduzindo latência e evitando requisições desnecessárias à API externa.
 
-**Eventos da NASA**
+---
 
-Para garantir dados sempre atualizados:
+## Alertas Globais
 
-```ts
+Os dados da API EONET são processados com estratégia:
+
+```
 cache: "no-store"
 ```
 
-Assim, alertas críticos globais são sempre renderizados com as **informações mais recentes diretamente do servidor**.
+Essa decisão garante que eventos naturais sejam sempre exibidos com as informações mais recentes disponíveis.
+
+Antes da entrega ao cliente, os eventos são ordenados cronologicamente no servidor.
 
 ---
 
-## 2️⃣ Gerenciamento de Estado e UX
+# Interface e Experiência do Usuário
 
-Para melhorar a experiência do usuário durante o carregamento dos dados:
+## Sistema de Tema
 
-* Utilização de **React Suspense**
-* Implementação de **Skeleton Screens** (Shadcn UI)
+A aplicação possui suporte a **modo claro e escuro**, implementado com:
 
-Isso permite que a interface principal carregue rapidamente enquanto dados mais pesados (como eventos da NASA) são processados em background.
+* `next-themes`
+* integração com preferências do sistema operacional
 
-Além disso, o hook **`useFormStatus`** foi utilizado para gerenciar estados de submissão no formulário de busca de cidades, fornecendo feedback visual imediato ao usuário.
-
----
-
-## 3️⃣ Tratamento de Erros e Resiliência
-
-Para garantir maior robustez da aplicação, foi implementado tratamento de erros no lado do servidor utilizando blocos **`try/catch`**.
-
-Falhas em APIs externas, como:
-
-* Cidade não encontrada na OpenWeather
-* Instabilidades temporárias na API da NASA
-
-são tratadas e exibidas através de **componentes visuais amigáveis**, evitando que erros comprometam o restante da interface.
+Essa abordagem evita inconsistências visuais durante a renderização inicial.
 
 ---
 
-## 4️⃣ Acessibilidade e Localização
+## Interface limpa e navegável
 
-### 🌐 Tradução Dinâmica
+A lista de eventos utiliza rolagem vertical com barra de rolagem oculta para manter a interface minimalista.
 
-As categorias retornadas pela API da NASA são originalmente fornecidas em inglês.
-Esses dados são interceptados e **traduzidos dinamicamente para Português (pt-BR)** antes da renderização.
-
-### ♿ Acessibilidade
-
-Foram adicionados **tooltips nativos (`title`)** em ícones e métricas meteorológicas, facilitando a interpretação das informações por parte do usuário.
+Indicadores visuais de rolagem foram adicionados através de gradientes animados para melhorar a descoberta de conteúdo.
 
 ---
 
-# ⚙️ Executando o projeto localmente
+## Validação de formulários
 
-Clone o repositório:
+Antes do envio da requisição de busca, o sistema realiza validação nativa do formulário:
+
+```
+form.checkValidity()
+```
+
+Isso previne estados de carregamento indevidos e melhora a experiência do usuário.
+
+---
+
+## Renderização progressiva com Suspense
+
+A aplicação utiliza **React Suspense** combinado com **Skeleton Screens**.
+
+Isso permite:
+
+* renderização imediata da estrutura da página
+* carregamento assíncrono de blocos de dados
+* melhoria no *First Contentful Paint (FCP)*
+
+---
+
+# Acessibilidade, Localização e Resiliência
+
+## Localização de dados
+
+Eventos fornecidos originalmente em inglês são traduzidos e classificados semanticamente em português, com cores associadas à severidade do evento.
+
+---
+
+## Transparência de dados
+
+Links para relatórios oficiais das agências monitoras são exibidos diretamente nos cards de eventos, permitindo acesso às fontes originais.
+
+---
+
+## Tratamento de falhas
+
+Requisições externas são protegidas por blocos `try/catch` no servidor.
+
+Caso alguma API externa esteja indisponível, a aplicação continua operando normalmente através de estados de fallback visuais.
+
+---
+
+# Instalação e Execução
+
+## Pré-requisitos
+
+* Node.js 18 ou superior
+* chave de API válida da OpenWeather
+
+---
+
+## Clone do repositório
 
 ```bash
 git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
-```
-
-Entre na pasta do projeto:
-
-```bash
 cd SEU_REPOSITORIO
 ```
 
-Instale as dependências:
+---
+
+## Instalação de dependências
 
 ```bash
 npm install
 ```
 
-Execute o projeto:
+---
+
+## Configuração do ambiente
+
+Crie um arquivo `.env` na raiz do projeto:
+
+```
+NEXT_PUBLIC_OPENWEATHER_API_KEY=SUA_CHAVE
+```
+
+---
+
+## Execução do projeto
 
 ```bash
 npm run dev
 ```
 
----
-
-💡 A aplicação estará disponível em:
+A aplicação estará disponível em:
 
 ```
 http://localhost:3000
 ```
-
----
-
-## 📷 Preview
-
-![Preview do projeto](image.png)
-
----
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT.
 
 ---
