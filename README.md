@@ -1,11 +1,18 @@
-
 # Vigilância Climática
 
-Dashboard Meteorológico e Sistema de Monitoramento de Desastres Naturais.
+Dashboard meteorológico e sistema de monitoramento global de eventos naturais extremos.
+
+A aplicação integra dados climáticos e eventos naturais provenientes de APIs externas, apresentando as informações em uma interface web otimizada para desempenho e experiência do usuário.
 
 ---
 
-# Visão Geral
+## Preview
+
+![Interface do dashboard Vigilância Climática](image-1.png)
+
+---
+
+## Visão Geral
 
 O **Vigilância Climática** é uma aplicação web focada no monitoramento meteorológico em tempo real e no rastreamento global de eventos naturais extremos.
 
@@ -15,37 +22,35 @@ A aplicação foi desenvolvida utilizando **Next.js** com arquitetura moderna ba
 
 ---
 
-# Stack Tecnológico
+## Stack Tecnológico
 
-## Frontend e Arquitetura
+### Frontend e Arquitetura
 
 * Framework: Next.js (App Router)
 * Biblioteca: React
 * Linguagem: TypeScript (tipagem estrita)
 
-## Interface e Estilização
+### Interface e Estilização
 
 * Tailwind CSS
 * next-themes (gerenciamento de tema)
 * Shadcn UI (componentes base)
 * Lucide React (biblioteca de ícones)
 
-## Integração de Dados
+### Integração de Dados
 
-* **OpenWeather API** — dados climáticos atuais e previsão de 5 dias
-* **NASA EONET API** — monitoramento global de eventos naturais
+* OpenWeather API — dados climáticos atuais e previsão meteorológica
+* NASA EONET API — monitoramento global de eventos naturais
 
 ---
 
-# Arquitetura de Software e Decisões Técnicas
+## Arquitetura de Software e Decisões Técnicas
 
 A estrutura do projeto foi projetada utilizando os paradigmas modernos do **Next.js App Router**, com foco em modularidade, escalabilidade e organização da lógica de dados.
 
 ---
 
-## Padrões de Projeto e Qualidade de Código
-
-**Design modular**
+### Design Modular
 
 A interface foi dividida em componentes com responsabilidade única, incluindo:
 
@@ -57,7 +62,7 @@ Essa abordagem mantém o roteamento principal responsável apenas pela orquestra
 
 ---
 
-**Dictionary Pattern**
+### Dictionary Pattern
 
 Estruturas condicionais extensas foram substituídas por um objeto de mapeamento (`CATEGORY_CONFIG`) responsável pela configuração visual e semântica das categorias de eventos.
 
@@ -69,7 +74,7 @@ Essa abordagem:
 
 ---
 
-**Imutabilidade de dados**
+### Imutabilidade de dados
 
 A ordenação cronológica dos eventos é realizada sem mutação do array original.
 
@@ -83,15 +88,15 @@ Isso evita efeitos colaterais durante o ciclo de renderização do React.
 
 ---
 
-**Tipagem estática rigorosa**
+### Tipagem estática rigorosa
 
 Foram definidas interfaces específicas para representar as respostas das APIs externas, evitando o uso de tipagens genéricas como `any` e garantindo maior segurança no consumo de dados.
 
 ---
 
-# Estratégias de Cache e Consumo de Dados
+## Estratégias de Cache e Consumo de Dados
 
-## Dados Meteorológicos
+### Dados Meteorológicos
 
 As requisições meteorológicas utilizam **revalidação estática incremental**:
 
@@ -103,7 +108,7 @@ Isso permite que o servidor atualize os dados automaticamente a cada hora, reduz
 
 ---
 
-## Alertas Globais
+### Alertas Globais
 
 Os dados da API EONET são processados com estratégia:
 
@@ -117,9 +122,9 @@ Antes da entrega ao cliente, os eventos são ordenados cronologicamente no servi
 
 ---
 
-# Interface e Experiência do Usuário
+## Interface e Experiência do Usuário
 
-## Sistema de Tema
+### Sistema de Tema
 
 A aplicação possui suporte a **modo claro e escuro**, implementado com:
 
@@ -130,7 +135,7 @@ Essa abordagem evita inconsistências visuais durante a renderização inicial.
 
 ---
 
-## Interface limpa e navegável
+### Interface limpa e navegável
 
 A lista de eventos utiliza rolagem vertical com barra de rolagem oculta para manter a interface minimalista.
 
@@ -138,7 +143,7 @@ Indicadores visuais de rolagem foram adicionados através de gradientes animados
 
 ---
 
-## Validação de formulários
+### Validação de formulários
 
 Antes do envio da requisição de busca, o sistema realiza validação nativa do formulário:
 
@@ -150,7 +155,7 @@ Isso previne estados de carregamento indevidos e melhora a experiência do usuá
 
 ---
 
-## Renderização progressiva com Suspense
+### Renderização progressiva com Suspense
 
 A aplicação utiliza **React Suspense** combinado com **Skeleton Screens**.
 
@@ -162,21 +167,21 @@ Isso permite:
 
 ---
 
-# Acessibilidade, Localização e Resiliência
+## Acessibilidade, Localização e Resiliência
 
-## Localização de dados
+### Localização de dados
 
 Eventos fornecidos originalmente em inglês são traduzidos e classificados semanticamente em português, com cores associadas à severidade do evento.
 
 ---
 
-## Transparência de dados
+### Transparência de dados
 
 Links para relatórios oficiais das agências monitoras são exibidos diretamente nos cards de eventos, permitindo acesso às fontes originais.
 
 ---
 
-## Tratamento de falhas
+### Tratamento de falhas
 
 Requisições externas são protegidas por blocos `try/catch` no servidor.
 
@@ -184,16 +189,42 @@ Caso alguma API externa esteja indisponível, a aplicação continua operando no
 
 ---
 
-# Instalação e Execução
+## Estrutura do Projeto
 
-## Pré-requisitos
+```
+src
+├ app
+│  ├ layout.tsx
+│  └ page.tsx
+│
+├ components
+│  ├ alerts
+│  ├ theme
+│  ├ ui
+│  └ weather
+│
+├ lib
+│  ├ getCurrentTime.ts
+│  ├ getPageData.ts
+│  └ getWeatherData.ts
+│
+└ services
+   ├ weather.ts
+   └ nasa.ts
+```
+
+---
+
+## Instalação e Execução
+
+### Pré-requisitos
 
 * Node.js 18 ou superior
 * chave de API válida da OpenWeather
 
 ---
 
-## Clone do repositório
+### Clone do repositório
 
 ```bash
 git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
@@ -202,7 +233,7 @@ cd SEU_REPOSITORIO
 
 ---
 
-## Instalação de dependências
+### Instalação de dependências
 
 ```bash
 npm install
@@ -210,7 +241,7 @@ npm install
 
 ---
 
-## Configuração do ambiente
+### Configuração do ambiente
 
 Crie um arquivo `.env` na raiz do projeto:
 
@@ -218,9 +249,13 @@ Crie um arquivo `.env` na raiz do projeto:
 NEXT_PUBLIC_OPENWEATHER_API_KEY=SUA_CHAVE
 ```
 
+A chave pode ser obtida em:
+
+https://openweathermap.org/api
+
 ---
 
-## Execução do projeto
+### Execução do projeto
 
 ```bash
 npm run dev
@@ -233,3 +268,4 @@ http://localhost:3000
 ```
 
 ---
+
