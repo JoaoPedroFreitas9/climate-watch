@@ -17,7 +17,6 @@ interface CategoryConfig {
   corBolinha: string;
 }
 
-
 const CATEGORY_CONFIG: Record<string, CategoryConfig> = {
   "Severe Storms": {
     icon: Tornado,
@@ -88,11 +87,9 @@ export function NasaAlertItem({ evento }: { evento: NasaEvent }) {
             {config.titulo}
           </span>
         </div>
-        
         <span className="font-bold text-slate-800 dark:text-slate-200 text-sm leading-tight line-clamp-2 mt-0.5" title={evento.title}>
           {evento.title}
         </span>
-        
         <div className="flex flex-wrap gap-x-3 gap-y-1.5 text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-1">
           <span title="Data da última atualização" className="cursor-help">• {dataEvento}</span>
           {lat && lon && (
