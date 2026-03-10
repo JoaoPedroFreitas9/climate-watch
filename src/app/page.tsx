@@ -103,29 +103,29 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ c
           </form>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6 items-stretch flex-1 min-h-0">
-          <Card className="bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 shadow-lg rounded-3xl flex flex-col overflow-hidden transition-colors duration-300">
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-5 lg:gap-6 items-stretch flex-1 min-h-0 overflow-hidden">
+          <Card className="bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 shadow-lg rounded-3xl flex flex-col overflow-hidden transition-colors duration-300 min-h-75">
             <CardHeader className="border-b border-slate-50 dark:border-slate-800/50 pb-4 pt-5 shrink-0">
               <CardTitle className="flex items-center gap-2 text-slate-800 dark:text-slate-200 text-base">
                 <CloudRain className="w-5 h-5 text-blue-500 dark:text-blue-400" />
                 Condições Atuais
               </CardTitle>
             </CardHeader>
-            <CardContent className="pt-5 md:pt-6 pb-5 md:pb-6 flex-1 flex flex-col overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <CardContent className="pt-5 md:pt-6 pb-5 md:pb-6 flex-1 overflow-y-auto">
               {!cidadeBuscada && <p className="text-slate-500 dark:text-slate-400 text-center py-8 m-auto">Aguardando a tua busca...</p>}
               {erro && <p className="text-red-500 dark:text-red-400 font-medium text-center py-8 m-auto bg-red-50 dark:bg-red-950/30 rounded-xl w-full">{erro}</p>}
               {dadosClima && <WeatherDisplay clima={dadosClima} previsao={dadosPrevisao} />}
             </CardContent>
           </Card>
 
-          <Card className="bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 shadow-lg rounded-3xl flex flex-col h-100 lg:h-full overflow-hidden transition-colors duration-300">
+          <Card className="bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 shadow-lg rounded-3xl flex flex-col min-h-75 flex-1 overflow-hidden transition-colors duration-300">
             <CardHeader className="border-b border-slate-50 dark:border-slate-800/50 pb-4 pt-5 shrink-0 z-10 bg-white dark:bg-slate-900 transition-colors duration-300">
               <CardTitle className="flex items-center gap-2 text-slate-800 dark:text-slate-200 text-base">
                 <AlertTriangle className="w-5 h-5 text-red-500 dark:text-red-400" />
                 Alertas Globais (NASA)
               </CardTitle>
             </CardHeader>
-            <CardContent className="pt-4 pb-0 flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] relative">
+            <CardContent className="pt-4 pb-0 flex-1 overflow-y-auto relative">
               <Suspense fallback={
                 <div className="space-y-4">
                   <Skeleton className="h-16 w-full rounded-2xl bg-slate-100 dark:bg-slate-800" />
