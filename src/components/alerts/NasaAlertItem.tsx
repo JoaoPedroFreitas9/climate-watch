@@ -66,8 +66,8 @@ export function NasaAlertItem({ evento }: { evento: NasaEvent }) {
   const config = CATEGORY_CONFIG[tituloCategoria] || DEFAULT_CONFIG;
   const Icone = config.icon;
 
-  const dataEvento = evento.geometries[0]?.date 
-    ? new Date(evento.geometries[0].date).toLocaleDateString('pt-BR')
+  const dataEvento = evento.geometries[0]?.date
+    ? new Date(evento.geometries[0].date).toLocaleDateString("pt-BR")
     : "N/A";
 
   const coords = evento.geometries[0]?.coordinates;
@@ -76,42 +76,76 @@ export function NasaAlertItem({ evento }: { evento: NasaEvent }) {
   const fonteId = evento.sources?.[0]?.id || "NASA";
 
   return (
-    <li className="flex gap-4 items-start py-3.5 border-b border-slate-100 dark:border-slate-800 last:border-0 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors px-2 rounded-lg -mx-2">
-      <div className={`p-2.5 rounded-full ${config.bgIcone} ${config.corIcone} mt-1 cursor-help`} title={`Classificação: ${config.titulo}`}>
+    <li className="flex gap-3 sm:gap-4 items-start py-4 border-b border-slate-100 dark:border-slate-800 last:border-0 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors px-3 sm:px-2 rounded-lg sm:-mx-2">
+      
+      <div
+        className={`p-3 sm:p-2.5 rounded-full ${config.bgIcone} ${config.corIcone} mt-1 cursor-help`}
+        title={`Classificação: ${config.titulo}`}
+      >
         <Icone className="w-5 h-5" />
       </div>
+
       <div className="flex flex-col w-full gap-1">
+        
         <div className="flex items-center">
-          <span className={`flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] uppercase tracking-wider font-extrabold ${config.corBadge} cursor-help`} title="Nível de Severidade">
-            <span className={`w-1.5 h-1.5 rounded-full ${config.corBolinha} animate-pulse`} />
+          <span
+            className={`flex items-center gap-1.5 px-2 py-0.5 rounded-md text-xs sm:text-[10px] uppercase tracking-wider font-extrabold ${config.corBadge} cursor-help`}
+            title="Nível de Severidade"
+          >
+            <span
+              className={`w-1.5 h-1.5 rounded-full ${config.corBolinha} animate-pulse`}
+            />
             {config.titulo}
           </span>
         </div>
-        <span className="font-bold text-slate-800 dark:text-slate-200 text-sm leading-tight line-clamp-2 mt-0.5" title={evento.title}>
+
+        <span
+          className="font-bold text-slate-800 dark:text-slate-200 text-base sm:text-sm leading-tight line-clamp-2 mt-0.5"
+          title={evento.title}
+        >
           {evento.title}
         </span>
-        <div className="flex flex-wrap gap-x-3 gap-y-1.5 text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-1">
-          <span title="Data da última atualização" className="cursor-help">• {dataEvento}</span>
+
+        <div className="flex flex-wrap gap-x-3 gap-y-1.5 text-xs sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-1">
+          
+          <span
+            title="Data da última atualização"
+            className="cursor-help"
+          >
+            • {dataEvento}
+          </span>
+
           {lat && lon && (
-            <span className="flex items-center gap-1 shrink-0 cursor-help" title="Coordenadas Geográficas (Latitude e Longitude)">
-              <Map className="w-3 h-3" /> {lat}, {lon}
+            <span
+              className="flex items-center gap-1 shrink-0 cursor-help"
+              title="Coordenadas Geográficas (Latitude e Longitude)"
+            >
+              <Map className="w-3 h-3" />
+              {lat}, {lon}
             </span>
           )}
+
           {evento.sources?.[0]?.url ? (
-            <a 
-              href={evento.sources[0].url} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="flex items-center gap-1 shrink-0 text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline transition-colors" 
+            <a
+              href={evento.sources[0].url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 shrink-0 text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline transition-colors"
               title="Clique para ler o relatório oficial"
             >
-              <Rss className="w-3 h-3" /> {fonteId}
+              <Rss className="w-3 h-3" />
+              {fonteId}
             </a>
           ) : (
-            <span className="flex items-center gap-1 shrink-0 cursor-help" title="Agência emissora do alerta oficial">
-              <Rss className="w-3 h-3" /> {fonteId}
+            <span
+              className="flex items-center gap-1 shrink-0 cursor-help"
+              title="Agência emissora do alerta oficial"
+            >
+              <Rss className="w-3 h-3" />
+              {fonteId}
             </span>
           )}
+
         </div>
       </div>
     </li>
