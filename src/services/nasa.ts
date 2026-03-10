@@ -1,21 +1,15 @@
+import { NASA_BASE_URL } from "./config"
+
 export async function getEvents() {
-  const url = 'https://eonet.gsfc.nasa.gov/api/v2.1/events?days=30&status=open';
+  const response = await fetch(`${NASA_BASE_URL}/events`, {
+    cache: "no-store",
+  })
 
-  try {
-    const response = await fetch(url, {
-      cache: 'no-store' 
-    });
-
-    if (!response.ok) {
-      throw new Error('Falha ao buscar alertas da NASA v2.1');
-    }
-
-    const data = await response.json();
-    return data.events || []; 
-    
-  } catch (error) {
-    console.error("Erro na API da NASA:", error);
-    
-    return []; 
+  if (!response.ok) {
+    throw new Error("Erro ao buscar eventos da NASA")
   }
+
+  const data = await response.json()
+
+  return data.events
 }
